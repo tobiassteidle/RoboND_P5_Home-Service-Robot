@@ -20,4 +20,12 @@ With the view_navigation.launch file, you can load a preconfigured rviz workspac
 With the turtlebot_world.launch you can deploy a turtlebot in a gazebo environment by linking the world file to it.
 
 #### ToDos
-[x] dsdfasdf
+- [x] Simulation Setup  
+*Evtl müssen "pick_objects" und "add_markers" als Package angelegt werden.*
+
+- [ ] SLAM Testing
+- [ ] Wall Follower Node
+- [ ] Navigation Testing
+- [ ] Waypoint Node
+- [ ] Virtual Objects
+- [ ] Put it all Together
