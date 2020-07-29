@@ -19,6 +19,46 @@ With the view_navigation.launch file, you can load a preconfigured rviz workspac
 [turtlebot_gazebo](http://wiki.ros.org/turtlebot_gazebo)  
 With the turtlebot_world.launch you can deploy a turtlebot in a gazebo environment by linking the world file to it.
 
+### Steps to launch the simulation
+
+#### Step 1 Update and upgrade the Workspace image
+```sh
+$ sudo apt-get update
+$ sudo apt-get upgrade -y
+```
+
+#### Step 2 Install dependencies
+```sh
+$ TODO
+
+```
+
+#### Step 3 Clone the lab folder in /home/workspace/
+```sh
+$ cd /home/workspace/
+$ git clone https://github.com/tobiassteidle/RoboND_P5_Home-Service-Robot
+
+```
+
+#### Step 3 Compile the code
+```sh
+$ cd /home/workspace/RoboND_P5_Home-Service-Robot/catkin_ws
+$ catkin_make
+```
+
+#### Step 4 Source ROS in this workspace
+```sh
+$ source devel/setup.bash
+```
+
+#### Step 5 Run the Simulation
+```sh
+$ TODO
+```
+
+
+
+
 #### ToDos
 - [x] Simulation Setup  
 *Evtl müssen "pick_objects" und "add_markers" als Package angelegt werden.*
