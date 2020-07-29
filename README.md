@@ -63,7 +63,7 @@ $ TODO
 - [x] Simulation Setup  
 *Evtl müssen "pick_objects" und "add_markers" als Package angelegt werden.*
 
-- [ ] SLAM Testing
+- [x] SLAM Testing
 - [ ] Wall Follower Node
 - [ ] Navigation Testing
 - [ ] Waypoint Node
