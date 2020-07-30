@@ -6,8 +6,8 @@
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
 int main(int argc, char** argv){
-  // Initialize the simple_navigation_goals node
-  ros::init(argc, argv, "simple_navigation_goals");
+  // Initialize the pick_objects node
+  ros::init(argc, argv, "pick_objects");
 
   //tell the action client that we want to spin a thread by default
   MoveBaseClient ac("move_base", true);
@@ -20,7 +20,7 @@ int main(int argc, char** argv){
   move_base_msgs::MoveBaseGoal goal;
 
   // set up the frame parameters
-  goal.target_pose.header.frame_id = "base_link";
+  goal.target_pose.header.frame_id = "map";
   goal.target_pose.header.stamp = ros::Time::now();
 
   // Define a position and orientation for the robot to reach
