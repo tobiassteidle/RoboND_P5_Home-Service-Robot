@@ -1,43 +1,41 @@
 #include <ros/ros.h>
+
 #include <move_base_msgs/MoveBaseAction.h>
+
 #include <actionlib/client/simple_action_client.h>
 
 // Define a client for to send goal requests to the move_base server through a SimpleActionClient
-typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+typedef actionlib::SimpleActionClient < move_base_msgs::MoveBaseAction > MoveBaseClient;
 
-bool move_to_position(MoveBaseClient &ac, double position_x, double orientation_w)
-{
-    move_base_msgs::MoveBaseGoal goal;
+bool move_to_position(MoveBaseClient & ac, double position_x, double orientation_w) {
+  move_base_msgs::MoveBaseGoal goal;
 
-    // set up the frame parameters
-    goal.target_pose.header.frame_id = "map";
-    goal.target_pose.header.stamp = ros::Time::now();
+  // set up the frame parameters
+  goal.target_pose.header.frame_id = "map";
+  goal.target_pose.header.stamp = ros::Time::now();
 
-    // Define a position and orientation for the robot to reach
-    goal.target_pose.pose.position.x = position_x;
-    goal.target_pose.pose.orientation.w = orientation_w;
+  // Define a position and orientation for the robot to reach
+  goal.target_pose.pose.position.x = position_x;
+  goal.target_pose.pose.orientation.w = orientation_w;
 
-    // Send the goal position and orientation for the robot to reach
-    ROS_INFO("Sending goal");
-    ac.sendGoal(goal);
+  // Send the goal position and orientation for the robot to reach
+  ROS_INFO("Sending goal");
+  ac.sendGoal(goal);
 
-    // Wait an infinite time for the results
-    ac.waitForResult();
+  // Wait an infinite time for the results
+  ac.waitForResult();
 
-    // Check if the robot reached its goal
-    if(ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-    {
-      ROS_INFO("Successfully reached target position");
-      return true;
-    }
-    else
-    {
-      ROS_INFO("Unable to reach target position.");
-      return false;
-    }
+  // Check if the robot reached its goal
+  if (ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED) {
+    ROS_INFO("Successfully reached target position");
+    return true;
+  } else {
+    ROS_INFO("Unable to reach target position.");
+    return false;
+  }
 }
 
-int main(int argc, char** argv){
+int main(int argc, char ** argv) {
   // Initialize the pick_objects node
   ros::init(argc, argv, "pick_objects");
 
@@ -45,7 +43,7 @@ int main(int argc, char** argv){
   MoveBaseClient ac("move_base", true);
 
   // Wait 5 sec for move_base action server to come up
-  while(!ac.waitForServer(ros::Duration(5.0))){
+  while (!ac.waitForServer(ros::Duration(5.0))) {
     ROS_INFO("Waiting for the move_base action server to come up");
   }
 
@@ -59,8 +57,7 @@ int main(int argc, char** argv){
   // Move to second position
   bool done_position_2 = move_to_position(ac, -2.0, -2.0);
 
-  if(done_position_1 && done_position_2)
-  {
+  if (done_position_1 && done_position_2) {
     ROS_INFO("Successfully reached both positions.");
   }
   return 0;

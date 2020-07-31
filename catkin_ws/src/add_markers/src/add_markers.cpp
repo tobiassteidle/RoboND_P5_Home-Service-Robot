@@ -1,18 +1,17 @@
 #include <ros/ros.h>
+
 #include <visualization_msgs/Marker.h>
 
-int main( int argc, char** argv )
-{
+int main(int argc, char ** argv) {
   ros::init(argc, argv, "add_markers");
   ros::NodeHandle n;
   ros::Rate r(1);
-  ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+  ros::Publisher marker_pub = n.advertise < visualization_msgs::Marker > ("visualization_marker", 1);
 
   // Set our initial shape type to be a cube
   uint32_t shape = visualization_msgs::Marker::CUBE;
 
-  while (ros::ok())
-  {
+  while (ros::ok()) {
     visualization_msgs::Marker marker;
     // Set the frame ID and timestamp.  See the TF tutorials for information on these.
     marker.header.frame_id = "map";
@@ -25,6 +24,14 @@ int main( int argc, char** argv )
 
     // Set the marker type.  Initially this is CUBE, and cycles between that and SPHERE, ARROW, and CYLINDER
     marker.type = shape;
+
+    /*
+Publish the marker at the pickup zone
+Pause 5 seconds
+Hide the marker
+Pause 5 seconds
+Publish the marker at the drop off zone
+   */
 
     // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
     marker.action = visualization_msgs::Marker::ADD;
@@ -44,18 +51,16 @@ int main( int argc, char** argv )
     marker.scale.z = 1.0;
 
     // Set the color -- be sure to set alpha to something non-zero!
-    marker.color.r = 0.0f;
-    marker.color.g = 1.0f;
-    marker.color.b = 0.0f;
+    marker.color.r = 0.0 f;
+    marker.color.g = 1.0 f;
+    marker.color.b = 0.0 f;
     marker.color.a = 1.0;
 
     marker.lifetime = ros::Duration();
 
     // Publish the marker
-    while (marker_pub.getNumSubscribers() < 1)
-    {
-      if (!ros::ok())
-      {
+    while (marker_pub.getNumSubscribers() < 1) {
+      if (!ros::ok()) {
         return 0;
       }
       ROS_WARN_ONCE("Please create a subscriber to the marker");
@@ -64,8 +69,7 @@ int main( int argc, char** argv )
     marker_pub.publish(marker);
 
     // Cycle between different shapes
-    switch (shape)
-    {
+    switch (shape) {
     case visualization_msgs::Marker::CUBE:
       shape = visualization_msgs::Marker::SPHERE;
       break;
