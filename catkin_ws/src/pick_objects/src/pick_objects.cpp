@@ -75,14 +75,14 @@ int main(int argc, char ** argv) {
   bool done_position_1 = move_to_position(ac, pickup_target);
   if(done_position_1)
   {
+    // Wait 5 seconds in pickup zone
+    ROS_INFO("Waiting in pickup zone.");
+    ros::Duration(5.0).sleep();
+
     std_msgs::Int8 msg;
     msg.data = DO_PICKUP;
     action_publisher.publish(msg);
   }
-
-  // Wait 5 seconds in pickup zone
-  ROS_INFO("Waiting in pickup zone.");
-  ros::Duration(5.0).sleep();
 
   // Move to second position
   bool done_position_2 = move_to_position(ac, dropoff_target);

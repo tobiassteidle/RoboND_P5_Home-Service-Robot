@@ -1,8 +1,8 @@
 position_tolerance: 5.0
 pickup_zone: {
     id: 0,
-    x: -5.29,
-    y: -1.13
+    x: -5.14,
+    y: 0.037
 }
 dropoff_zone: {
     id: 1,
