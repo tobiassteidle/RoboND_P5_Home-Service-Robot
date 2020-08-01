@@ -1,0 +1,10 @@
+position_tolerance: 5.0
+pickup_zone: {
+    x: -5.29,
+    y: -1.13
+}
+dropoff_zone: {
+    x: -7.47,
+    y: 0.08    
+}
+
