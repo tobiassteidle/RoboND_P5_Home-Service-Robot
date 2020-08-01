@@ -8,4 +8,5 @@ xterm  -e  " roslaunch add_markers rviz.launch rviz_config_file:=$(pwd)/src/rviz
 sleep 5
 xterm  -e  " rosparam load src/params/parameters.yaml" &
 xterm  -e  " rosrun add_markers add_markers" &
+sleep 3
 xterm  -e  " rosrun pick_objects pick_objects" &

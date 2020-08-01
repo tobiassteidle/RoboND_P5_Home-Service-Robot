@@ -3,25 +3,12 @@
 #include <geometry_msgs/Point.h>
 #include <nav_msgs/Odometry.h>
 #include <visualization_msgs/Marker.h>
+#include <std_msgs/Int8.h>
 
-enum State { Idle, Moving, Pickup, Drop };
+enum State { Initialize, Idle, Pickup, Drop };
+State state = Initialize;
 
-class RobotStatus
-{
-    public:
-        State currentState;
-        bool holdingObject;
-
-        RobotStatus()
-        {
-            this->currentState = Idle;
-            this->holdingObject = false;
-        }
-};
-
-RobotStatus robotStatus;
-
-void visualize_marker(ros::Publisher & marker_pub, visualization_msgs::Marker & marker, int32_t action, geometry_msgs::Point position) {
+void visualize_marker(ros::Publisher &marker_pub, visualization_msgs::Marker &marker, int32_t action, geometry_msgs::Point position) {
   // Set the marker action.
   marker.action = action;
 
@@ -33,13 +20,13 @@ void visualize_marker(ros::Publisher & marker_pub, visualization_msgs::Marker & 
   marker.pose.orientation.w = 1.0;
 
   // Set the scale of the marker -- 1x1x1 here means 1m on a side
-  marker.scale.x = 1.0;
-  marker.scale.y = 1.0;
-  marker.scale.z = 1.0;
+  marker.scale.x = 0.25;
+  marker.scale.y = 0.25;
+  marker.scale.z = 0.25;
 
   // Set the color -- be sure to set alpha to something non-zero!
-  marker.color.r = 0.0f;
-  marker.color.g = 1.0f;
+  marker.color.r = 1.0f;
+  marker.color.g = 0.0f;
   marker.color.b = 0.0f;
   marker.color.a = 1.0;
 
@@ -48,11 +35,22 @@ void visualize_marker(ros::Publisher & marker_pub, visualization_msgs::Marker & 
 
 void odom_callback(const nav_msgs::Odometry::ConstPtr& odom)
 {
-  ::robotStatus.currentState = Moving;
-
   const float pos_x = (float)odom->pose.pose.position.x;
   const float pos_y = (float)odom->pose.pose.position.y;
-  ROS_INFO("Current Position x = %1.2f, y = %1.2f", pos_x, pos_y);
+  //ROS_INFO("Current Position x = %1.2f, y = %1.2f", pos_x, pos_y);
+}
+
+void action_callback(const std_msgs::Int8::ConstPtr &action)
+{
+    ROS_INFO("Do Action: %d", action->data);
+    if(action->data == 1)
+    {
+        state = Pickup;
+    }
+    else if(action->data == 2)
+    {
+        state = Drop;
+    }
 }
 
 int main(int argc, char ** argv) {
@@ -60,6 +58,7 @@ int main(int argc, char ** argv) {
   ros::NodeHandle n;
   ros::Rate r(10);
   ros::Subscriber odom_sub = n.subscribe("/odom", 1000, odom_callback);
+  ros::Subscriber action_sub = n.subscribe("/my_robot/action_publisher", 10, action_callback);
   ros::Publisher marker_pub = n.advertise < visualization_msgs::Marker > ("visualization_marker", 1);
 
   // Parameters from Parameter Server
@@ -105,20 +104,17 @@ int main(int argc, char ** argv) {
     }
 
 
-    /*
-    // Publish marker to pickup zone
-    ROS_INFO("Publish marker on pickup zone.");
-    visualize_marker(marker_pub, marker, visualization_msgs::Marker::ADD, position_pickup);
 
 
 
+
+/*
     // Wait for 5 Seconds
     ROS_INFO("Wait for 5 seconds...");
     ros::Duration(5.0).sleep();
 
     // Hide Marker
-    ROS_INFO("Hide Marker.");
-    visualize_marker(marker_pub, marker, visualization_msgs::Marker::DELETE, position_pickup);
+
 
     // Wait for 5 Seconds
     ROS_INFO("Wait for 5 seconds...");
@@ -130,11 +126,39 @@ int main(int argc, char ** argv) {
 
     visualize_marker(marker_pub, marker, visualization_msgs::Marker::ADD, position_dropoff);
 
-    while (ros::ok()) {
+*/
+
+    while (ros::ok())
+    {
+        switch(state)
+        {
+            case Idle:
+                // Do Nothing
+                break;
+
+            case Initialize:
+                ROS_INFO("Publish marker on pickup zone.");
+                visualize_marker(marker_pub, marker, visualization_msgs::Marker::ADD, position_pickup);
+                state = Idle;
+                break;
+
+            case Pickup:
+                ROS_INFO("Pickup Object.");
+                visualize_marker(marker_pub, marker, visualization_msgs::Marker::DELETE, position_pickup);
+                state = Idle;
+                break;
+
+            case Drop:
+                ROS_INFO("Publish marker at the drop off zone.");
+                visualize_marker(marker_pub, marker, visualization_msgs::Marker::ADD, position_dropoff);
+                state = Idle;
+                break;
+        }
+
       ros::spinOnce();
     }
-    */
 
-    ros::spin();
+
+
   }
 }
