@@ -9,7 +9,7 @@ typedef actionlib::SimpleActionClient < move_base_msgs::MoveBaseAction > MoveBas
 #define DO_PICKUP 1
 #define DO_DROPOFF 2
 
-struct MovementTarget {   // Declare PERSON struct type
+struct MovementTarget {
     int target_id;
     geometry_msgs::Point target_point;
 };
@@ -75,7 +75,6 @@ int main(int argc, char ** argv) {
   bool done_position_1 = move_to_position(ac, pickup_target);
   if(done_position_1)
   {
-    // Wait 5 seconds in pickup zone
     ROS_INFO("Waiting in pickup zone.");
     ros::Duration(5.0).sleep();
 
@@ -89,9 +88,14 @@ int main(int argc, char ** argv) {
 
   if (done_position_1 && done_position_2) {
     ROS_INFO("Successfully reached both positions.");
+
+    ROS_INFO("Waiting in dropoff zone.");
+    ros::Duration(5.0).sleep();
+
     std_msgs::Int8 msg;
     msg.data = DO_DROPOFF;
     action_publisher.publish(msg);
   }
+
   return 0;
 }

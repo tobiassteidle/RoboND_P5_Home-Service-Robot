@@ -103,31 +103,6 @@ int main(int argc, char ** argv) {
       sleep(1);
     }
 
-
-
-
-
-
-/*
-    // Wait for 5 Seconds
-    ROS_INFO("Wait for 5 seconds...");
-    ros::Duration(5.0).sleep();
-
-    // Hide Marker
-
-
-    // Wait for 5 Seconds
-    ROS_INFO("Wait for 5 seconds...");
-    ros::Duration(5.0).sleep();
-
-    // Publish marker to drop off zone
-    ROS_INFO("Publish marker at the drop off zone.");
-    marker.lifetime = ros::Duration();
-
-    visualize_marker(marker_pub, marker, visualization_msgs::Marker::ADD, position_dropoff);
-
-*/
-
     while (ros::ok())
     {
         switch(state)
