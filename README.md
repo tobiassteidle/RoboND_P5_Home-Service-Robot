@@ -4,6 +4,9 @@
 Final Robotic Software Engineer Nanodegree Project "Home Service Robot".  
 This project simulates a robot that picks up a virtual object at a certain position, transports it to the target position and places the object there again.
 
+### Certificate
+![Robotic Software Engineer Nanodagree](assets/Zertifikat.png)
+
 ### Output Video
 [![Home Service Robot](http://img.youtube.com/vi/Mz-PplLILok/0.jpg)](http://www.youtube.com/watch?v=Mz-PplLILok "Home Service Robot")
 
