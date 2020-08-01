@@ -1,12 +1,23 @@
-# ACHTUNG PROJEKT NOCH PRIVATE
-
 [![Udacity - Robotics NanoDegree Program](https://s3-us-west-1.amazonaws.com/udacity-robotics/Extra+Images/RoboND_flag.png)](https://www.udacity.com/robotics)
 
 # RoboND_P5_Home-Service-Robot
-Final Robotic Software Engineer Nanodegree Project "Home Service Robot"
+Final Robotic Software Engineer Nanodegree Project "Home Service Robot".  
+This project simulates a robot that picks up a virtual object at a certain position, transports it to the target position and places the object there again.
 
-### Used Packages
+### Output Video
+[![Home Service Robot](http://img.youtube.com/vi/TAsDPuI8lic/0.jpg)](http://www.youtube.com/watch?v=TAsDPuI8lic "Home Service Robot")
 
+### Packages
+
+##### pick_objects
+Moves robot from to pickup zone and publish the `DO_PICKUP` action on `/my_robot/action_publisher` topic.  
+Moves robot to dropoff zone and public the `DO_DROPOFF` action on `/my_robot/action_publisher` topic.
+
+##### add_markers
+Subscribes the `/my_robot/action_publisher` topic.
+Views a marker on the pickup zone, hides the marker on `DO_PICKUP` and view the marker in the dropoff zone after receiving `DO_DROPOFF`.
+
+#### Third Party 
 [gmapping](http://wiki.ros.org/gmapping)  
 With the gmapping_demo.launch file, you can easily perform SLAM and build a map of the environment with a robot equipped with laser range finder sensors or RGB-D cameras.
 
@@ -27,13 +38,7 @@ $ sudo apt-get update
 $ sudo apt-get upgrade -y
 ```
 
-#### Step 2 Install dependencies
-```sh
-$ TODO
-
-```
-
-#### Step 3 Clone the lab folder in /home/workspace/
+#### Step 2 Clone the lab folder in /home/workspace/
 ```sh
 $ cd /home/workspace/
 $ git clone https://github.com/tobiassteidle/RoboND_P5_Home-Service-Robot
@@ -52,20 +57,26 @@ $ source devel/setup.bash
 ```
 
 #### Step 5 Run the Simulation
+There are several ways to start the simulation.
+
+##### Testing SLAM
 ```sh
-$ TODO
+$ cd /home/workspace/RoboND_P5_Home-Service-Robot/catkin_ws
+$ ./src/scripts/test_slam.sh
 ```
 
+##### Testing Navigation and Localisation
+```sh
+$ cd /home/workspace/RoboND_P5_Home-Service-Robot/catkin_ws
+$ ./src/scripts/test_navigation.sh
+```
 
+#### Testing Service Robot
+Pickup and Dropoff Zone location is configured in `src/params/parameters.yaml`.  
+The Map is in the `src/map` directory.  
+RVIZ configuration is in `src/rvizConfig/rvizConfig.rviz`.  
 
-
-#### ToDos
-- [x] Simulation Setup  
-*Evtl müssen "pick_objects" und "add_markers" als Package angelegt werden.*
-
-- [x] SLAM Testing
-- [ ] Wall Follower Node
-- [ ] Navigation Testing
-- [ ] Waypoint Node
-- [ ] Virtual Objects
-- [ ] Put it all Together
+```sh
+$ cd /home/workspace/RoboND_P5_Home-Service-Robot/catkin_ws
+$ ./src/scripts/home_service.sh
+```
